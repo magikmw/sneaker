@@ -33,15 +33,12 @@ uses crt;
 var
 numsysstr:STRING;
 converteestr:STRING;
-{numsys:LONGINT;
-convertee:LONGINT;}
-
 bin:STRING;
 oct:STRING;
 dec:STRING;
 hex:STRING;
-
 octbin:array[0..7] of STRING;
+dechex:array[0..15] of STRING;
 
 {Procedures and functions declarations.}
 
@@ -56,6 +53,27 @@ Procedure octbintablefill;
 		octbin[5]:='101';
 		octbin[6]:='110';
 		octbin[7]:='111';
+	end;
+
+Procedure dechextablefill;
+	begin
+		{set the table}
+		dechex[0]:='0';
+		dechex[1]:='1';
+		dechex[2]:='2';
+		dechex[3]:='3';
+		dechex[4]:='4';
+		dechex[5]:='5';
+		dechex[6]:='6';
+		dechex[7]:='7';
+		dechex[8]:='8';
+		dechex[9]:='9';
+		dechex[10]:='A';
+		dechex[11]:='B';
+		dechex[12]:='C';
+		dechex[13]:='D';
+		dechex[14]:='E';
+		dechex[15]:='F';
 	end;
 
 Function reverse(s:string):string; {stolen from rosettacode}
@@ -111,7 +129,6 @@ Procedure binary(input:STRING);
 
 		counter:=byte(tmpstr2[0]) div 3;
 		if tmpint <> 0 then counter:=counter+1;
-		writeln('Binary string is ', tmpstr2, ' Counter is = ', counter);
 
 		for i:=0 to counter-1 do
 		begin
@@ -132,7 +149,6 @@ Procedure binary(input:STRING);
 					end
 					else y:=y+1;
 				end;
-			writeln(oct);
 			end
 
 			else begin
@@ -149,23 +165,45 @@ Procedure binary(input:STRING);
 				end
 				else y:=y+1;
 			end;
-			writeln(oct);
 			end;
 		end;
 
 		{then bin to dec}
 		tmpstr2:=input;
+		tmpint:=0;
 		counter:=byte(tmpstr2[0]);
 		y:=0;
 		for i:=counter downto 0 do
 		begin
-		val(tmpstr2[i],z);
-		x:=z * power(2,y);
-		tmpint:=tmpint+x;
-		y:=y+1;
+			val(tmpstr2[i],z);
+			writeln('Bin, ',z);
+			x:=z * power(2,y);
+			writeln('Decpiece, ', x);
+			tmpint:=tmpint+x;
+			writeln('Summed, ',tmpint);
+			y:=y+1;
 		end;
 		str(tmpint, dec);
+
 		{finally, bin to hex}
+		tmpstr2:=input;
+		tmpint:=byte(tmpstr2[0]) mod 4;
+		if tmpint <> 0 then
+		begin
+			if tmpint = 1 then filling:='000'
+			else if tmpint = 2 then filling:='00'
+			else if tmpint = 3 then filling:='0';
+			tmpstr2:=Concat(filling,tmpstr2);
+		end;
+
+		counter:=byte(tmpstr2[0]) div 4;
+		if tmpint <> 0 then counter:=counter+1;
+
+		for i:=0 to counter-1 do
+		begin
+
+		end;
+
 		
 	writeln('Input lenght = ',byte(input[0]));
 
