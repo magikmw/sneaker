@@ -71,31 +71,46 @@ begin
       end;
 end;
 
+Function power(x:INTEGER; y:INTEGER):INTEGER;
+var i:integer;
+var z:integer;
+begin
+	if y = 0 then power:=1
+	else
+	begin
+		z:=x;
+		for i:=1 to y-1 do x:=x*z;
+		power:=x;
+	end;
+end;
+
 Procedure binary(input:STRING);
 	var
 	tmpstr:STRING;
 	tmpstr2:STRING;
 	counter:INTEGER;
-	modulo:INTEGER;
+	tmpint:INTEGER;
 	filling:STRING;
 	x:INTEGER;
 	i:INTEGER;
-	ii:INTEGER;
+	y:INTEGER;
+	z:INTEGER;
+
 	Begin
 
 		{first bin to oct}
 		tmpstr2:=input;
-		modulo:=byte(tmpstr2[0]) mod 3;
-		if modulo <> 0 then
+		tmpint:=byte(tmpstr2[0]) mod 3;
+		if tmpint <> 0 then
 		begin
-			if modulo = 1 then filling:='00'
+			if tmpint = 1 then filling:='00'
 			else filling:='0';
 
 			tmpstr2:=Concat(filling,tmpstr2);
 		end;
 
 		counter:=byte(tmpstr2[0]) div 3;
-		if modulo <> 0 then counter:=counter+1;
+		if tmpint <> 0 then counter:=counter+1;
 		writeln('Binary string is ', tmpstr2, ' Counter is = ', counter);
 
 		for i:=0 to counter-1 do
@@ -105,38 +120,52 @@ Procedure binary(input:STRING);
 			if i > 0 then
 			begin
 			tmpstr:=Copy(tmpstr2, x+1, 3);
-			ii:=0;
+			y:=0;
 
-				while ii <> 8 do
+				while y <> 8 do
 				begin
-					if tmpstr = octbin[ii] then
+					if tmpstr = octbin[y] then
 					begin
-						Str(ii, tmpstr);
+						Str(y, tmpstr);
 						oct:=Concat(oct,tmpstr);
-						ii:=8;
+						y:=8;
 					end
-					else ii:=ii+1;
+					else y:=y+1;
 				end;
 			writeln(oct);
 			end
 
 			else begin
 			tmpstr:=Copy(tmpstr2, i+1, 3);
-			ii:=0;
+			y:=0;
 
-			while ii <> 8 do
+			while y <> 8 do
 			begin
-				if tmpstr = octbin[ii] then
+				if tmpstr = octbin[y] then
 				begin
-					Str(ii, tmpstr);
+					Str(y, tmpstr);
 					oct:=Concat(oct,tmpstr);
-					ii:=8;
+					y:=8;
 				end
-				else ii:=ii+1;
+				else y:=y+1;
 			end;
 			writeln(oct);
 			end;
 		end;
+
+		{then bin to dec}
+		tmpstr2:=input;
+		counter:=byte(tmpstr2[0]);
+		y:=0;
+		for i:=counter downto 0 do
+		begin
+		val(tmpstr2[i],z);
+		x:=z * power(2,y);
+		tmpint:=tmpint+x;
+		y:=y+1;
+		end;
+		str(tmpint, dec);
+		{finally, bin to hex}
 		
 	writeln('Input lenght = ',byte(input[0]));
 
