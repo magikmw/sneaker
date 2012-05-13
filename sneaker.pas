@@ -121,8 +121,12 @@ Procedure binary(input:STRING);
 		tmpint:=byte(tmpstr2[0]) mod 3;
 		if tmpint <> 0 then
 		begin
+<<<<<<< HEAD
 			if tmpint = 1 then filling:='00'
 			else filling:='0';
+=======
+			counter:=byte(input[0]) div 3;
+>>>>>>> origin/master
 
 			tmpstr2:=Concat(filling,tmpstr2);
 		end;
@@ -130,9 +134,23 @@ Procedure binary(input:STRING);
 		counter:=byte(tmpstr2[0]) div 3;
 		if tmpint <> 0 then counter:=counter+1;
 
+<<<<<<< HEAD
 		for i:=0 to counter-1 do
 		begin
 			x:=3*i;
+=======
+					while ii <> 8 do
+					begin
+						if tmpstr = octbin[ii] then
+						begin
+							Str(ii, tmpstr);
+							oct:=Concat(oct,tmpstr);
+							ii:=8;
+						end
+						else ii:=ii+1;
+					end;
+				end
+>>>>>>> origin/master
 
 			if i > 0 then
 			begin
@@ -147,7 +165,12 @@ Procedure binary(input:STRING);
 						oct:=Concat(oct,tmpstr);
 						y:=8;
 					end
+<<<<<<< HEAD
 					else y:=y+1;
+=======
+					else ii:=ii+1;
+				end;
+>>>>>>> origin/master
 				end;
 			end
 
@@ -168,6 +191,7 @@ Procedure binary(input:STRING);
 			end;
 		end;
 
+<<<<<<< HEAD
 		{then bin to dec}
 		tmpstr2:=input;
 		tmpint:=0;
@@ -205,6 +229,12 @@ Procedure binary(input:STRING);
 		end;
 
 		
+=======
+		{bin to dec}
+
+		{bin to hex}
+
+>>>>>>> origin/master
 	writeln('Input lenght = ',byte(input[0]));
 
 
