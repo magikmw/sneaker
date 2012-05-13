@@ -74,43 +74,38 @@ end;
 Procedure binary(input:STRING);
 	var
 	tmpstr:STRING;
+	tmpstr2:STRING;
 	counter:INTEGER;
+	modulo:INTEGER;
+	filling:STRING;
 	x:INTEGER;
 	i:INTEGER;
 	ii:INTEGER;
 	Begin
 
 		{first bin to oct}
-		if byte(input[0]) mod 3 = 0 then
+		tmpstr2:=input;
+		modulo:=byte(tmpstr2[0]) mod 3;
+		if modulo <> 0 then
 		begin
-			counter:=byte(input[0]) div 3;
-			writeln('Counter is = ', counter);
+			if modulo = 1 then filling:='00'
+			else filling:='0';
 
-			for i:=0 to counter-1 do
+			tmpstr2:=Concat(filling,tmpstr2);
+		end;
+
+		counter:=byte(tmpstr2[0]) div 3;
+		if modulo <> 0 then counter:=counter+1;
+		writeln('Binary string is ', tmpstr2, ' Counter is = ', counter);
+
+		for i:=0 to counter-1 do
+		begin
+			x:=3*i;
+
+			if i > 0 then
 			begin
-				x:=3*i;
-
-				if i > 0 then
-				begin
-				tmpstr:=Copy(input, x+1, 3);
-				ii:=0;
-
-					while ii <> 8 do
-					begin
-						if tmpstr = octbin[ii] then
-						begin
-							Str(ii, tmpstr);
-							oct:=Concat(oct,tmpstr);
-							ii:=8;
-						end
-						else ii:=ii+1;
-					end;
-				writeln(oct);
-				end
-
-				else begin
-				tmpstr:=Copy(input, i+1, 3);
-				ii:=0;
+			tmpstr:=Copy(tmpstr2, x+1, 3);
+			ii:=0;
 
 				while ii <> 8 do
 				begin
@@ -122,11 +117,27 @@ Procedure binary(input:STRING);
 					end
 					else ii:=ii+1;
 				end;
-				writeln(oct);
-				end;
+			writeln(oct);
+			end
+
+			else begin
+			tmpstr:=Copy(tmpstr2, i+1, 3);
+			ii:=0;
+
+			while ii <> 8 do
+			begin
+				if tmpstr = octbin[ii] then
+				begin
+					Str(ii, tmpstr);
+					oct:=Concat(oct,tmpstr);
+					ii:=8;
+				end
+				else ii:=ii+1;
+			end;
+			writeln(oct);
 			end;
 		end;
-
+		
 	writeln('Input lenght = ',byte(input[0]));
 
 
