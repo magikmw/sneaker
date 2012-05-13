@@ -84,7 +84,6 @@ Procedure binary(input:STRING);
 		if byte(input[0]) mod 3 = 0 then
 		begin
 			counter:=byte(input[0]) div 3;
-			writeln('Counter is = ', counter);
 
 			for i:=0 to counter-1 do
 			begin
@@ -105,7 +104,6 @@ Procedure binary(input:STRING);
 						end
 						else ii:=ii+1;
 					end;
-				writeln(oct);
 				end
 
 				else begin
@@ -122,10 +120,13 @@ Procedure binary(input:STRING);
 					end
 					else ii:=ii+1;
 				end;
-				writeln(oct);
 				end;
 			end;
 		end;
+
+		{bin to dec}
+
+		{bin to hex}
 
 	writeln('Input lenght = ',byte(input[0]));
 
