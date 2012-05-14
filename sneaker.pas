@@ -77,7 +77,7 @@ Procedure dechextablefill;
 	end;
 
 Function reverse(s:string):string; {stolen from rosettacode}
-var i:integer;
+var i:longint;
 var tmp:char;
 begin
     for i:=1 to length(s) div 2 do
@@ -89,9 +89,9 @@ begin
       end;
 end;
 
-Function power(x:INTEGER; y:INTEGER):INTEGER;
-var i:integer;
-var z:integer;
+Function power(x:longint; y:longint):longint;
+var i:longint;
+var z:longint;
 begin
 	if y = 0 then power:=1
 	else
@@ -106,13 +106,14 @@ Procedure binary(input:STRING);
 	var
 	tmpstr:STRING;
 	tmpstr2:STRING;
-	counter:INTEGER;
-	tmpint:INTEGER;
+	counter:longint;
+	tmpint:longint;
 	filling:STRING;
-	x:INTEGER;
-	i:INTEGER;
-	y:INTEGER;
-	z:INTEGER;
+	x:longint;
+	i:longint;
+	j:longint;
+	y:longint;
+	z:longint;
 
 	Begin
 
@@ -128,7 +129,6 @@ Procedure binary(input:STRING);
 		end;
 
 		counter:=byte(tmpstr2[0]) div 3;
-		if tmpint <> 0 then counter:=counter+1;
 
 		for i:=0 to counter-1 do
 		begin
@@ -176,11 +176,8 @@ Procedure binary(input:STRING);
 		for i:=counter downto 0 do
 		begin
 			val(tmpstr2[i],z);
-			writeln('Bin, ',z);
 			x:=z * power(2,y);
-			writeln('Decpiece, ', x);
 			tmpint:=tmpint+x;
-			writeln('Summed, ',tmpint);
 			y:=y+1;
 		end;
 		str(tmpint, dec);
@@ -197,11 +194,20 @@ Procedure binary(input:STRING);
 		end;
 
 		counter:=byte(tmpstr2[0]) div 4;
-		if tmpint <> 0 then counter:=counter+1;
 
-		for i:=0 to counter-1 do
+		for i:=1 to counter do
 		begin
-
+			tmpint:=0;
+			x:=i*4;
+			z:=0;
+			j:=0;
+			for y:=0 to 3 do
+			begin
+				val(tmpstr2[x-y], z);
+				tmpint:=z*power(2,j)+tmpint;
+				j:=j+1;
+			end;
+			hex:=Concat(hex,dechex[tmpint]);
 		end;
 
 		
@@ -211,11 +217,8 @@ Procedure binary(input:STRING);
 	end;
 
 Procedure octal(input:STRING);
-	var
-	nbin:LONGINT;
-	noct:LONGINT;
-	ndoc:LONGINT;
-	nhex:STRING;
+	{var}
+
 	Begin
 
 
@@ -223,11 +226,8 @@ Procedure octal(input:STRING);
 	end;
 
 Procedure decimal(input:STRING);
-	var
-	nbin:LONGINT;
-	noct:LONGINT;
-	ndoc:LONGINT;
-	nhex:STRING;
+	{var}
+
 	Begin
 
 
@@ -235,11 +235,8 @@ Procedure decimal(input:STRING);
 	end;
 
 Procedure hexadecimal(input:STRING);
-	var
-	nbin:LONGINT;
-	noct:LONGINT;
-	ndoc:LONGINT;
-	nhex:STRING;
+	{var}
+
 	Begin
 
 
@@ -249,16 +246,25 @@ Procedure hexadecimal(input:STRING);
 Begin {Program begin}
 
 	octbintablefill;
+	dechextablefill;
 
-	if ParamCount <> 2 then begin
-		writeln('Please specify the numeric system and the number - i.e. sneaker bin 101010');
+	if ParamCount <> 2 then
+	begin
+		writeln('Usage: sneaker [bin,oct,dec,hex] [number] ie. sneaker bin 101010');
 		exit;
 	end
 	else begin
 		numsysstr:=ParamStr(1);
 		converteestr:=ParamStr(2);
-		{val(numsysstr, numsys);
-		val(converteestr, convertee);}
+		if numsysstr <> 'bin' then
+			if numsysstr <> 'oct' then
+				if numsysstr <> 'dec' then
+					if numsysstr <> 'hex' then
+					begin
+						writeln('Valid system parameters are [bin, oct, dec, hex].');
+						writeln('Usage: sneaker [bin,oct,dec,hex] [number] ie. sneaker bin 101010');
+						exit;
+					end;
 	end;
 
 	if numsysstr = 'bin' then
